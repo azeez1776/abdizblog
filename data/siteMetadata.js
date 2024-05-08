@@ -6,8 +6,8 @@ const siteMetadata = {
   description: 'A portal to my mind.',
   language: 'en-us',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://tailwind-nextjs-starter-blog.vercel.app',
-  siteRepo: 'https://github.com/timlrx/tailwind-nextjs-starter-blog',
+  siteUrl: 'https://abdi.codes',
+  siteRepo: 'https://github.com/azeez1776/abdizblog',
   siteLogo: '/static/images/logo.jpg',
   socialBanner: '/static/images/twitter-card.png',
   email: 'aboud3am81@gmail.com',
