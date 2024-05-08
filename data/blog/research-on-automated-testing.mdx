@@ -1,0 +1,221 @@
+---
+title: 'Research on Automated Testing 🧪'
+date: '2024-05-08'
+lastmod: '2023-08-05'
+tags: ['testing', 'react native', 'appium', 'detox']
+draft: false
+summary: 'Software Testing is the process of evaluating and verifying that a software product or application does what it is supposed to do'
+images: ['/static/images/twitter-card.png']
+---
+
+## Introduction
+
+Software Testing is the process of evaluating and verifying that a software product or application does what it is supposed to do.
+
+The benefits of testing includes preventing bugs, reducing development costs and improving performance.
+
+🤖**Automated Testing** is when the tester writes scripts and uses another software to test the product.
+
+✍🏿**Manual Testing** includes testing software manually, in this type of testing, the tester takes over the role of end-user and tests the software to identify any unexpected behaviour or bug.
+
+**What makes a good test:**
+
+- Runs Fast
+- Doesn’t break often
+- Easy to Read/understand
+- Catches Bugs
+- Good coverage to effort ratio
+
+**Software level testing can be majorly classified into 4 levels:**
+
+1. **Unit Testing:** **[Unit testing](https://www.geeksforgeeks.org/unit-testing-software-testing/)** is a level of the software testing process where individual units/components of a software/system are tested. The purpose is to validate that each unit of the software performs as designed.
+2. **Integration Testing:** **[Integration testing](https://www.geeksforgeeks.org/software-engineering-integration-testing/)** is a level of the software testing process where individual units are combined and tested as a group. The purpose of this level of testing is to expose faults in the interaction between integrated units.
+3. **System Testing: [System testing](https://www.geeksforgeeks.org/system-testing/)** is a level of the software testing process where a complete, integrated system/software is tested. The purpose of this test is to evaluate the system’s compliance with the specified requirements.
+4. **Acceptance Testing:** **[Acceptance testing](https://www.geeksforgeeks.org/acceptance-testing-software-testing/)** is a level of the software testing process where a system is tested for acceptability. The purpose of this test is to evaluate the system’s compliance with the business requirements and assess whether it is acceptable for delivery.
+
+## Different Types of Software Testing Techniques
+
+Software testing techniques can be majorly classified into two categories:
+
+1. **Black Box Testing:** **[Black box technique](https://www.geeksforgeeks.org/software-engineering-black-box-testing/)** of testing in which the tester doesn’t have access to the source code of the software and is conducted at the software interface without any concern with the internal logical structure of the software known as black-box testing.
+2. **White-Box Testing:** **[White box technique](https://www.geeksforgeeks.org/software-engineering-white-box-testing/)** of testing in which the tester is aware of the internal workings of the product, has access to its source code, and is conducted by making sure that all internal operations are performed according to the specifications is known as white box testing.
+3. **Grey Box Testing:** **[Grey Box technique](https://www.geeksforgeeks.org/gray-box-testing-software-testing/)** is testing in which the testers should have knowledge of implementation, however, they need not be experts.
+
+### Benefits of Software Testing
+
+- **Product quality:** Testing ensures the delivery of a high-quality product as the errors are discovered and fixed early in the development cycle.
+- **Customer satisfaction:** Software testing aims to detect the errors or vulnerabilities in the software early in the development phase so that the detected bugs can be fixed before the delivery of the product. Usability testing is a type of software testing that checks the application for how easily usable it is for the users to use the application.
+- **Cost-effective:** Testing any project on time helps to save money and time for the long term. If the bugs are caught in the early phases of software testing, it costs less to fix those errors.
+- **Security:** Security testing is a type of software testing that is focused on testing the application for security vulnerabilities from internal or external sources.
+
+Why End to End (E2E) Testing
+
+- Testing from user perspective.
+- Gives you confidence that part of your app works.
+
+## Jest (Unit Test)
+
+Jest is a delightful JavaScript Testing Framework with a focus on simplicity.
+
+Delightful testing meaning:
+
+- Performance
+- Rich Feature Set
+- Usability
+
+### Some of the pros of jest are:
+
+- **Zero Config**
+  - Jest aims to work out of the box, config free, on most JavaScript project.
+- **Snapshots**
+  - Make tests which keep track of large objects with ease. Snapshots live either alongside your tests, or embedded inline.
+- **Isolated**
+  - Tests are parallelized by running them in their own processes to maximize performance.
+- **Great API**
+  - From `it` to `expect` - Jest has the entire toolkit in one place. Well documented, well maintained, well good.
+- **Fast and Safe**
+  - By ensuring your tests have unique global state, Jest can reliably run tests in parallel. To make things quick, Jest runs previously failed tests first and reorganizes runs based on how long test files take.
+- **Code Coverage**
+  - Generate code coverage by adding the `--coverage` . No additional setup is needed. Jest can collect code coverage information from entire projects, including untested files.
+- **Great Exceptions**
+  - Tests fail and when they do, Jest provides rich context to why the test failed.
+- **Easy Mocking**
+  - Jest uses a custom resolver for imports in your tests, making it simple to mock any object outside your test’s scope. Jest has rich Mockup Functions API.
+- **Easy and comprehensive Documentations.**
+  - The docs are very comprehensive and easy to understand with examples on how to use jest.
+- **Large Ecosystem**
+  - Jest has a very large ecosystem being one of the best testing frameworks with 42.8k stars and 6.5k forks and about 1500 contributors.
+
+## Detox (E2E Test)
+
+Gray box end-to-end testing and automation framework for React Native apps.
+
+Framework synchronizes with the tests in your app, looks at the app from the inside, in a very invasive manner it monitors network, JS thread, RN bridge, timers layouts and animation.
+
+Detox is made to make E2E testing easy.
+
+**E2E Tests made easy**
+
+- Runs on CI, simulators on Travis, designed for sharding
+- Much much faster, x5 - x10 faster than Blackbox
+- JavaScript scenarios, simple cross platform tests
+- Stable, no need to sleep, tests are automatically synchronized.
+
+Detox test for a login screen.
+
+```jsx
+describe('Login Flow', () => {
+  it('should login successfully', async () => {
+    await device.reloadReactNative()
+    await expect(element(by.id('email'))).toBeVisible()
+
+    await element(by.id('email')).typeText('john@example.com')
+    await element(by.id('password')).typeText('123456')
+    await element(by.label('Login')).tap()
+
+    await expect(element(by.label('Welcome'))).toBeVisible()
+    await expect(element(by.id('email'))).toNotExist()
+  })
+})
+```
+
+Detox Benefits:
+
+- **Cross Platform**
+  - You can write cross-platform end-to-end tests in JavaScript. Currently supports iOS and Android.
+- **Debuggable.**
+  - Modern async-await API allows breakpoints in asynchronous tests to work as expected.
+- **Automatically Synchronized.**
+  - Stops flakiness at the core by monitoring asynchronous operations in your app.
+- **Test Runner Agnostic**
+  - Detox provides a set of APIs to use with any test runner or without it. It comes with `Jest` integration out of the box.
+- **Made for CI**
+  - Execute your E2E tests on CI platforms like Travis CI, CircleCI or Jenkins without grief.
+- **Runs on Devices**
+  - Gain confidence to ship by testing your app on a device/simulator just like a real user.
+
+## Appium (E2E Test)
+
+Appium is an open-source project and ecosystem of related software, designated to facilitate UI automation of many app platforms, including mobile (Android, iOS, Tizen), browser (Chrome, Firefox, Safari), desktop (macOS, Windows), TV (Roku, tvOS, Android TV, Samsung), and more.
+
+Appium does black box testing
+
+Blackbox looks at the app from the outside.
+
+Appium works in a client ↔️ server model, The Appium client consist of of client libraries used to send request found in documentations, and the libraries are language agnostic.
+
+Appium server is an http server created with NodeJS, the Appium server send the request to the application on the mobile device where the action is performed.
+
+JSON Wire Protocol is the protocol used to convert the client request into a format understood by the Appium server.
+
+Desire Capabilities are a set of key and value combination that we send along with the request that has the device information to be tested, example of information sent are Device Name, Platform, Version and UDID. This helps in choosing the compatible driver that will be used in testing the app.
+
+**E2E Tests in Appium are Hard**
+
+- Run on physical devices, how can that run on CI like Travis?
+- They are very slow, takes minutes to run, not seconds.
+- Complicated, the feature is easier to write than the test.
+- Requires a lot of configuration, which can be tricky
+- Tests are flaky, a passing test may fail every now and then with no apparent reason.
+
+```jsx
+const { remote } = require('webdriverio')
+
+const capabilities = {
+  platformName: 'Android',
+  'appium:automationName': 'UiAutomator2',
+  'appium:deviceName': 'Android',
+  'appium:appPackage': 'com.android.settings',
+  'appium:appActivity': '.Settings',
+}
+
+const wdOpts = {
+  hostname: process.env.APPIUM_HOST || 'localhost',
+  port: parseInt(process.env.APPIUM_PORT, 10) || 4723,
+  logLevel: 'info',
+  capabilities,
+}
+
+async function runTest() {
+  const driver = await remote(wdOpts)
+  try {
+    const batteryItem = await driver.$('//*[@text="Battery"]')
+    await batteryItem.click()
+  } finally {
+    await driver.pause(1000)
+    await driver.deleteSession()
+  }
+}
+
+runTest().catch(console.error)
+```
+
+Basically, this code is doing the following:
+
+1. Defining a set of "Capabilities" (parameters) to send to the Appium server so Appium knows what kind of thing you want to automate.
+2. Starting an Appium session on the built-in Android settings app.
+3. Finding the "Battery" list item and clicking it.
+4. Pausing for a moment purely for visual effect.
+5. Ending the Appium session.
+
+## Conclusion
+
+In conclusion, considering the specific requirements and characteristics of the Hexis Live app, Detox emerges as the preferred choice. Detox's compatibility and dedicated support for React Native, coupled with its seamless integration into the Node ecosystem, make it an ideal fit for our project. Notably, Detox's robustness and stability, attributed to its grey box approach enabling precise app state synchronization, further underline its suitability.
+
+While Appium is a viable option, its black box approach introduces potential flakiness due to the absence of app state synchronization. Additionally, its inherent complexity, driven by its broad device support and client-server model, may introduce performance constraints.
+
+Hence, the evidence suggests that Detox stands as the more suitable solution for our Hexis Live app, ensuring a smooth and reliable testing experience.
+
+## References
+
+**Appium Official website** https://appium.io/docs/en/2.1/intro/
+
+**Detox Official website** https://wix.github.io/Detox/
+
+**Detox or Appium – Which Test Tool is Top?** https://digio.com.au/learn/blog/detox-or-appium/
+
+**What is Software Testing?** https://www.geeksforgeeks.org/software-testing-basics/
+
+**Detox — Graybox End-to-End Tests and Automation Library for React Native by Tal Kol aka @koltal**
+
+https://youtu.be/Ndof_lgJmx8?si=2IjWxizS5_TRmrG9
