@@ -10,7 +10,6 @@ import Footer from '@/components/Footer'
 import siteMetadata from '@/data/siteMetadata'
 import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
-import Script from 'next/script'
 
 const space_grotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -88,11 +87,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </SectionContainer>
         </ThemeProviders>
       </body>
-      <Script
-        defer
-        src="https://analytics.eu.umami.is/script.js"
-        data-website-id="fef8b288-8bef-4336-a35c-a5746c77902a"
-      />
     </html>
   )
 }
