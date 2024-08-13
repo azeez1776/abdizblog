@@ -21,34 +21,32 @@ const projectsData: Project[] = [
     href: 'https://www.safiri.com',
   },
   {
-    title: 'Royal Stable Zanzibar',
-    description: `Imagine being able to travel back in time or to the future. Simple turn the knob
-    to the desired date and press "Go". No more worrying about lost keys or
-    forgotten headphones with this simple yet affordable solution.`,
-    imgSrc: '/static/images/royal-stable-zanzibar.png',
-    href: 'https://www.royalstablezanzibar.com',
-  },
-  {
-    title: 'Royal Apartment',
-    description: `Imagine being able to travel back in time or to the future. Simple turn the knob
-    to the desired date and press "Go". No more worrying about lost keys or
-    forgotten headphones with this simple yet affordable solution.`,
-    imgSrc: '/static/images/time-machine.jpg',
-    href: 'https://www.royal-apartment.com',
+    title: 'Tamagui',
+    description:
+      "Contributed to the development of the toggle button component in Tamagui, a high-performance UI kit for React Native and web applications. This open-source project focuses on creating fast, customizable, and cross-platform user interface elements. By working on the toggle button, I helped enhance Tamagui's component library, improving its versatility for developers building responsive and accessible applications across multiple platforms",
+    imgSrc: '/static/images/tamagui.jpg',
+    href: 'https://tamagui.dev',
   },
   {
     title: 'Leonco Fuel Station Management System',
     description:
       'Led a team of 5 developers in creating a comprehensive Fuel Station Management system for Leonco in Sierra Leone. Developed both an admin portal and a mobile app, streamlining operations and improving efficiency. Contributed to app development while managing the team, ensuring successful delivery of a tailored solution for fuel station oversight and administration.',
     imgSrc: '/static/images/leonco.png',
-    href: 'https://www.royal-apartment.com',
+    href: 'https://www.leonoil.sl',
   },
   {
-    title: 'Tamagui',
+    title: 'Royal Stable Zanzibar',
     description:
-      "Contributed to the development of the toggle button component in Tamagui, a high-performance UI kit for React Native and web applications. This open-source project focuses on creating fast, customizable, and cross-platform user interface elements. By working on the toggle button, I helped enhance Tamagui's component library, improving its versatility for developers building responsive and accessible applications across multiple platforms",
-    imgSrc: '/static/images/tamagui.jpg',
-    href: 'https://tamagui.dev',
+      'Developed a streamlined booking website for Royal Stable Zanzibar, enabling users to easily reserve horse riding experiences. Created an intuitive interface for browsing and selecting ride packages, coupled with an efficient booking system. Implemented a user-friendly process that allows customers to complete their reservations in just a few minutes, enhancing the overall user experience and potentially increasing bookings for the stable',
+    imgSrc: '/static/images/royalstablezanzibar.png',
+    href: 'https://www.royalstablezanzibar.com',
+  },
+  {
+    title: 'Royal Apartment',
+    description:
+      'Developed an elegant booking platform for Royal Apartment Zanzibar, featuring 12 luxurious beachfront villas. Created a user-friendly interface for villa exploration and implemented a streamlined reservation system. Users can easily select dates and receive instant booking confirmations, simplifying the process of securing high-end beach accommodation',
+    imgSrc: '/static/images/royalapartment.png',
+    href: 'https://www.royal-apartment.com',
   },
 ]
 
