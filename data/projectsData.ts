@@ -30,7 +30,7 @@ const projectsData: Project[] = [
   {
     title: 'Leonco Fuel Station Management System',
     description:
-      'Led a team of 5 developers in creating a comprehensive Fuel Station Management system for Leonco in Sierra Leone. Developed both an admin portal and a mobile app, streamlining operations and improving efficiency. Contributed to app development while managing the team, ensuring successful delivery of a tailored solution for fuel station oversight and administration.',
+      'Led a team of 5 developers in creating a comprehensive Fuel Station Management system for Leonco in Sierra Leone. Developed with the team both an admin portal and a mobile app, streamlining operations and improving efficiency. Contributed to app development while managing the team, ensuring successful delivery of a tailored solution for fuel station oversight and administration.',
     imgSrc: '/static/images/leonco.png',
     href: 'https://www.leonoil.sl',
   },
