@@ -8,7 +8,7 @@ const siteMetadata = {
   theme: 'system', // system, dark or light
   siteUrl: 'https://abdi.codes',
   siteRepo: 'https://github.com/azeez1776/abdizblog',
-  siteLogo: '/static/images/logo.jpg',
+  siteLogo: '/static/images/logo.png',
   socialBanner: '/static/images/twitter-card.png',
   email: 'aboud3am81@gmail.com',
   github: 'https://github.com/azeez1776',

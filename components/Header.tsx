@@ -19,8 +19,8 @@ const Header = () => {
                 src={'/static/images/logo.png'}
                 className="hover-element"
                 alt="Logo"
-                width="34"
-                height="34"
+                width="100"
+                height="100"
               />
             </div>
             {typeof siteMetadata.headerTitle === 'string' ? (
