@@ -35,7 +35,11 @@ export default function AuthorLayout({ children, content }: Props) {
                 }
               />
 
-              <a href="https://drive.google.com/file/d/1FpI5_j8qOa7tEL1P2u24czEjMOkAXliY/view?usp=sharing">
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://drive.google.com/file/d/1FpI5_j8qOa7tEL1P2u24czEjMOkAXliY/view?usp=sharing"
+              >
                 Resume/CV
               </a>
             </div>
