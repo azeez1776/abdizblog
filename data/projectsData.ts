@@ -7,18 +7,18 @@ interface Project {
 
 const projectsData: Project[] = [
   {
-    title: 'Hexis',
-    description:
-      'Developed key features including an intra-workout fuelling system and a Notes & Notification scheduler, enhancing user performance and coach-client communication. Created a Coach Hub desktop web app for athlete monitoring and feedback. Implemented E2E testing with Maestro and managed app releases for both iOS and Android platforms, ensuring a robust and user-friendly fitness solution.',
-    imgSrc: '/static/images/hexis-project.png',
-    href: 'https://www.hexis.live',
-  },
-  {
     title: 'Safiri',
     description:
       "Rebuilt the backend with Temporal and Node.js, creating a reliable multi-modal ticket booking system with mobile money integration. Implemented key features including push notifications, an agent commission system, multi-currency support, and expense tracking for transportation companies. Developed the train booking flow for mobile and backend, enhancing the platform's functionality and user experience.",
     imgSrc: '/static/images/safiri.webp',
     href: 'https://www.safiri.com',
+  },
+  {
+    title: 'Hexis',
+    description:
+      'Developed key features including an intra-workout fuelling system and a Notes & Notification scheduler, enhancing user performance and coach-client communication. Created a Coach Hub desktop web app for athlete monitoring and feedback. Implemented E2E testing with Maestro and managed app releases for both iOS and Android platforms, ensuring a robust and user-friendly fitness solution.',
+    imgSrc: '/static/images/hexis-project.png',
+    href: 'https://www.hexis.live',
   },
   {
     title: 'Tamagui',
