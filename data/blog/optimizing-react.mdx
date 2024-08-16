@@ -1,0 +1,383 @@
+---
+title: 'Optimizing React 🕰️'
+date: '2024-08-15'
+lastmod: '2023-08-15'
+tags: ['react', 'useMemo', 'memo', 'useCallback', 'rerender']
+draft: false
+summary: 'Ever wondered why a component rerenders? Ever wondered how to optimize your React App, if yes, this article is for you.'
+images: ['/static/images/twitter-card.png']
+---
+
+## Introduction
+
+When it comes to React optimization, the first thing in mind is preventing unecessary rerenders that occur to a React Component, but before we start talking about how to prevent unneccessary rerenders, let first talk about what causes the React component to rerender.
+
+## What causes a React Component to Re-render
+
+What causes a react component to re-render has been a confusion to many, and surely there are some misconception spread about what causes re-renders. After reading articles online, here are what cause a React component to re-render:
+
+- A state change in a React Component makes the component to re-render.
+- When a parent component re-renders, all it's descedents re-render.
+- A context change for a React component that consumes the context.
+
+### Misconceptions about what causes a React Component to Re-render.
+
+Just like I said initially, there have been some misconception about what causes a React component to re-render, and to be honest these misconceptions do make sense because one way are the other they are related with what really causes a component to re-render hence the confusion.
+
+**These are the misconceptions:**
+
+- <span className="text-primary-600">Big Misconception #1</span>: A state change causes the whole
+  React App to re-render.
+- <span className="text-primary-600">Big Misconception #2</span>: Props change causes a React
+  Component to re-render.
+
+## Optimizing React Component.
+
+### <span className="text-primary-600">Scenarion #1 Using React.memo</span>
+
+```jsx
+import React from 'react'
+
+// The Main Parent
+function App() {
+  return (
+    <>
+      <Counter />
+    </>
+  )
+}
+
+// Parent to BigNumber and Hello components, hence if Counter Component Re-renders, the descedents which are Hello and BigNumber components will re-render.
+function Counter() {
+  const [count, setCount] = React.useState(0)
+
+  return (
+    <>
+      <BigNumber count={count} />
+      <input type="number" value={count} />
+      <button onClick={() => setCount((prev) => prev + 1)}>increment</button>
+      <Hello />
+    </>
+  )
+}
+
+// A child component to the Counter Component.
+function BigNumber({ count }) {
+  return <p>{count}</p>
+}
+
+// A child component to the Hello Component.
+function Hello() {
+  return <p>Hello</p>
+}
+```
+
+Let me describe the code snippet above, so basically the Counter component has two direct descedents which will re-render on Counter component re-render.
+
+The Counter component can re-render if there is a change in the state variable. But looking closely at the components, we see that unlike the BigNumber Component which has the count state as it's props, the Hello component is a pure component with no props at all, and doesn't really need to re-render on every re-render that the Count Component makes.
+
+Seeing this we can avoid unneccessary re-renders using `React.memo`. Wrapping a component with`React.memo` prevents the re-render of the child component caused by the parent component unless there is a change in props in the child component.
+
+```jsx
+import React from 'react'
+
+// The Main Parent
+function App() {
+  return (
+    <>
+      <Counter />
+    </>
+  )
+}
+
+// Parent to BigNumber and Hello components, hence if Counter Component Re-renders, the descedents which are Hello and BigNumber components will re-render.
+export function Counter() {
+  const [count, setCount] = React.useState(0)
+
+  return (
+    <>
+      <BigNumber count={count} />
+      <input type="number" value={count} />
+      <button onClick={() => setCount((prev) => prev + 1)}>increment</button>
+      <Hello />
+    </>
+  )
+}
+```
+
+```jsx
+// A child component to the Counter Component.
+function BigNumber({ count }) {
+  return <p>{count}</p>
+}
+
+export default React.memo(BigNumber)
+```
+
+```jsx
+// A child component to the Hello Component.
+function Hello() {
+  return <p>Hello</p>
+}
+
+export default React.memo(Hello)
+```
+
+So by wrapping the Hello and the BigNumber Component using `React.memo`, it prevents the child components to re-render unless there is a change in props, which means the Hello component having no props wont re-render at all, and the BigNumber Component will only re-render when the count state variable changes.
+
+### <span className="text-primary-600">Scenarion #2 Using useMemo and useCallback</span>
+
+Basically, useMemo and useCallback are tools built to help us optimize re-renders. They do this in two ways:
+
+1. Reducing the amount of work that needs to be done in a given render.
+2. Reducing the number of times that a component needs to re-render.
+
+<span className="text-primary-600">useMemo</span> is a React Hook that lets you cache the result of a
+calculation between re-renders.
+
+<span className="text-primary-600">useCallback</span> is a React Hook that lets you cache a function
+definition between re-renders.
+
+Fundamentally <span className="text-primary-600">useMemo</span> remembers value between re-renders, so instead of computing after every re-render and assigning a variable the same value, it just checks if the useMemo dependency/dependencies have changed, if not it uses the same previous value without computing for it. hence optimizing a re-render.
+
+Let's look at an example
+
+### Case 1. Heavy Computation
+
+Let's create a component that returns a series of numbers from 0 to `setLimit` value.
+
+```jsx
+import React from 'react'
+
+function App() {
+  const [limit, setLimit] = useState(10)
+
+  const [toggle, setToggle] = useState(false)
+
+  const numbers = []
+
+  for (let i = 0; i <= limit; i++) {
+    numbers.push(i)
+  }
+
+  return (
+    <>
+      {numbers.map((val, index) => {
+        return <p key="index">{val}</p>
+      })}
+      <input type="number" value={limit} onChange={(num) => setLimit(num)} />
+      <button onClick={() => setToggle((prev) => !prev)}>Toggle</button>
+    </>
+  )
+}
+```
+
+Given the app component above, the user enters a limit, and the app generates a list of numbers from 0 to the `limit`.
+
+The app has two states `limit` and `toggle`, whenever `limit` and/or `toggle` state changes the App component re-renders, causing the numbers array to be populated again.
+
+But with observation, we can see that the numbers array doesn't need to be populated on every re-render, for instance, if the user enters the same `limit`, or if the toggle state changes.
+
+This could hinder the performance of the re-render if the limit is in thousands or more. To prevent this performance issue we can use `useMemo`
+
+```jsx
+import React from 'react'
+
+function App() {
+  const [limit, setLimit] = useState(10)
+
+  const [toggle, setToggle] = useState(false)
+
+  const numbers = []
+
+  for (let i = 0; i <= limit; i++) {
+    numbers.push(i)
+  }
+
+  const numbers = React.useMemo(() => {
+    const results = []
+
+    for (let i = 0; i <= limit; i++) {
+      result.push(i)
+    }
+
+    return result
+  }, [limit])
+
+  return (
+    <>
+      {numbers.map((val, index) => {
+        return <p key="index">{val}</p>
+      })}
+      <input type="number" value={limit} onChange={(num) => setLimit(num)} />
+      <button onClick={() => setToggle((prev) => !prev)}>Toggle</button>
+    </>
+  )
+}
+```
+
+So with this update, the numbers array will only be populated when the value of `limit` state changes, no matter how many re-renders occur. This approach optimizes the performance of the re-renders.
+
+### Case 2. Preserved References
+
+Consider the the React Component below.
+
+```jsx
+import React from 'react'
+
+function App() {
+  const [text, setText] = useState('')
+
+  const people = [
+    { name: 'Ally', age: 16 },
+    { name: 'Faith', age: 20 },
+    { name: 'Alex', age: 30 },
+  ]
+
+  return (
+    <>
+      <Hello people={people} />
+      <input type="text" value={text} onChange={(e) => setText(e.target.value)} />
+    </>
+  )
+}
+```
+
+```jsx
+function Hello({ people }) {
+  return (
+    <>
+      {people.map((val, index) => (
+        <p>Hello {val}</p>
+      ))}
+    </>
+  )
+
+  export default React.memo(Hello)
+}
+```
+
+In the code snippet above, we have the App Component and it's child component Hello Component. Hello Component has a prop, and the value it takes is the people array.
+
+Although the Hello Component is wrapped in `React.memo` it still re-renders. But wait, shouldn't it re-render on props change only.
+
+The reason it still re-renders while the people array still has the same value is because, with every re-render a new memory reference is created for the people array, hence it may have the same value but it's not the same people array we had before.
+
+This occurs with Objects, Arrays and Functions.
+
+So to solve this issue, we can use `useMemo`. `useMemo` will make sure that as long as the value of people array is the same, regardless of the memory reference that the Hello Component does not re-render.
+
+```jsx
+import React from 'react'
+
+function App() {
+  const [text, setText] = useState('')
+
+  const people = useMemo(() => {
+    const result = []
+
+    result.push([
+      { name: 'Ally', age: 16 },
+      { name: 'Faith', age: 20 },
+      { name: 'Alex', age: 30 },
+    ])
+
+    return result
+  }, [])
+
+  return (
+    <>
+      <Hello people={people} />
+      <input type="text" value={text} onChange={(e) => setText(e.target.value)} />
+    </>
+  )
+}
+```
+
+```jsx
+function Hello({ people }) {
+  return (
+    <>
+      {people.map((val, index) => (
+        <p>Hello {val}</p>
+      ))}
+    </>
+  )
+
+  export default React.memo(Hello)
+}
+```
+
+Now that we finished talking about `useMemo`, let's talk about `useCallback`. So essentially `useCallback` is the same as `useMemo` but for functions
+
+Consider this code snippet below
+
+```jsx
+function App() {
+  const [counter, setCounter] = React.useState(0)
+
+  function handleIncrement(num) {
+    setCounter((prev) => prev + num)
+  }
+
+  return (
+    <>
+      <p>{counter}</p>
+      <button onClick={handleIncrement}>Increment</button>
+    </>
+  )
+}
+```
+
+Just like Objects and Arrays, this function `handleIncrement` will be generated with every re-render, making it unique with every re-render regardless if it is the same function.
+
+To prevent that, we can use `useCallback`, with `useCallback` the function will only be regenerated on re-render if it's dependencies have changed.
+
+```jsx
+function App() {
+  const [counter, setCounter] = React.useState(0)
+
+  const handleIncrement = React.useCallback((num) {
+    setCounter((prev) => prev + num)
+  },[])
+
+  return (
+    <>
+      <p>{counter}</p>
+      <button onClick={handleIncrement}>Increment</button>
+    </>
+  )
+}
+```
+
+`useMemo` can be used in place of `useCallback` although it is recommended to use `useCallback` with Functions and `useMemo` with Objects and Arrays.
+
+Now that we have talked about how to optimize a React Component hence a React App, the next question is when should we consider optimizing a React Component.
+
+It is recommended to optimize a React Component when you notice a performance issue with your app. There are dev tools for profiling that you can use to know where exactly to optimize.
+
+Always make sure to profile the **before** and **after** your optimizing ( use of `React.memo`, `useMemo` and `useCallback` ) changes to have certainty it makes the app faster.
+
+Optimizing React Component in advance without profiling may lead to premature optimization, premature optimization may cause your app to be slower in some case, so it's better to optimize your app afer profiling.
+
+## Conclusion
+
+In conclusion, considering the specific requirements and characteristics of the Hexis Live app, Detox emerges as the preferred choice. Detox's compatibility and dedicated support for React Native, coupled with its seamless integration into the Node ecosystem, make it an ideal fit for our project. Notably, Detox's robustness and stability, attributed to its grey box approach enabling precise app state synchronization, further underline its suitability.
+
+While Appium is a viable option, its black box approach introduces potential flakiness due to the absence of app state synchronization. Additionally, its inherent complexity, driven by its broad device support and client-server model, may introduce performance constraints.
+
+Hence, the evidence suggests that Detox stands as the more suitable solution for our Hexis Live app, ensuring a smooth and reliable testing experience.
+
+## References
+
+<a href="https://www.joshwcomeau.com/react/why-react-re-renders/">
+  **Why React Re-Renders By Joshua Comeau**
+</a>
+
+<a href="https://www.joshwcomeau.com/react/usememo-and-usecallback/">
+  **useMemo and useCallback by Joshua Comeau**
+</a>
+
+<a href="https://www.callstack.com/ebook/mastering-the-big-screen-react-native-for-tv-guidebook?utm_campaign=Guide%202024%20-%20X%20Organic%20Post&utm_source=X&utm_medium=Just%20Link&utm_content=TV%20Apps%20Guidebook_Waiting%20List%20Promo">
+  **The Ultimate Guide to React Native Optimization By Callstack**
+</a>
